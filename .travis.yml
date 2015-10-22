@@ -1,0 +1,29 @@
+---
+language: python
+
+python: "2.7"
+
+sudo: required
+dist: trusty
+
+env:
+  global:
+    - EXTRA_VARS=""
+  matrix:
+    - TEST=django EXTRA_VARS="ssl=yes"
+    - TEST=django EXTRA_VARS="ssl=no"
+    - TEST=php EXTRA_VARS="ssl=yes"
+    - TEST=php EXTRA_VARS="ssl=no"
+
+before_install:
+  - pip install ansible
+
+script:
+  - mkdir -p /tmp/test
+  - cd /tmp/test
+  - git init
+  - $TRAVIS_BUILD_DIR/install.sh
+  - cp -f $TRAVIS_BUILD_DIR/tests/$TEST/playbook.yml virtualization/
+  - cp -f $TRAVIS_BUILD_DIR/tests/$TEST/parameters.yml virtualization/
+  - ansible-playbook -i $TRAVIS_BUILD_DIR/tests/inventory virtualization/playbook.yml --extra-vars "$EXTRA_VARS" --syntax-check
+

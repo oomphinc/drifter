@@ -1,6 +1,8 @@
 RAWBOT Virtualization Framework
 ===============================
 
+[![Build Status](https://travis-ci.org/team-rawbot/rawbot-virtualization.svg)](https://travis-ci.org/team-rawbot/rawbot-virtualization)
+
 This repository is supposed to be used as a git submodule to quickly
 bootstrap the virtualization stack of a new or existing project.
 

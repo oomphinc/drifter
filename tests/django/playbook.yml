@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  remote_user: root
+  vars_files:
+    - ./parameters.yml
+  roles:
+    - base
+    - postgresql
+    - django
+    - compass
+

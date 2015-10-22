@@ -1,0 +1,10 @@
+---
+- hosts: all
+  vars_files:
+   - parameters.yml
+  remote_user: root
+  roles:
+    - { role: base }
+    - { role: mysql}
+    - { role: php-apache }
+    - { role: composer }
