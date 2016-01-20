@@ -19,6 +19,7 @@ pages:
     - 'Other roles': 'roles/others.md'
   - 'Tips & Tricks':
     - 'PHP Debugging': 'tips/php.md'
+    - 'Using Ubuntu': 'tips/using-ubuntu.md'
   - 'Roadmap': 'roadmap.md'
   - 'Custom boxes': 'boxes.md'
   - 'Migrations': 'migrations.md'
