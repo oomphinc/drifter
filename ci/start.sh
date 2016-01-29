@@ -25,31 +25,31 @@ then
 fi
 
 echo -e "- Start ssh-agent"
-. ./virtualization/drifter/ci/ssh-agent.sh
+time . ./virtualization/drifter/ci/ssh-agent.sh
 
 
 echo -e "- Start vagrant"
 
 if [ -f ./virtualization/provisionbuild.dat ]
 then
-    vagrant up  $VIRTUALBOX_NAME --provider lxc --no-provision
+    time vagrant up  $VIRTUALBOX_NAME --provider lxc --no-provision
     echo -e "- Check if provisioning is needed"
-    vagrant ssh -c "if [ -f /home/vagrant/provisionbuild.last ]; then cp /home/vagrant/provisionbuild.last /vagrant/virtualization/provisionbuild.last; fi" $VIRTUALBOX_NAME
+    time vagrant ssh -c "if [ -f /home/vagrant/provisionbuild.last ]; then cp /home/vagrant/provisionbuild.last /vagrant/virtualization/provisionbuild.last; fi" $VIRTUALBOX_NAME
     LASTPROVISION=$(if [ -f ./virtualization/provisionbuild.last ]; then cat ./virtualization/provisionbuild.last; else date; fi) # date == make sure provisioning is run, when that file doesn't exist
     THISPROVISION=$(if [ -f ./virtualization/provisionbuild.dat ]; then cat ./virtualization/provisionbuild.dat; else echo ""; fi)
     if [ "$LASTPROVISION" != "$THISPROVISION" ]
     then
-      vagrant provision $VIRTUALBOX_NAME
-      vagrant ssh -c "echo $THISPROVISION > /home/vagrant/provisionbuild.last" $VIRTUALBOX_NAME
+      time vagrant provision $VIRTUALBOX_NAME
+      time vagrant ssh -c "echo $THISPROVISION > /home/vagrant/provisionbuild.last" $VIRTUALBOX_NAME
     fi
 else
-    vagrant up $VIRTUALBOX_NAME --provider lxc --provision 
+    time vagrant up $VIRTUALBOX_NAME --provider lxc --provision 
 fi
 
 if [ -f $CI_TEST_SCRIPT ]; 
 then
     echo -e "- Run $CI_TEST_SCRIPT"
-    vagrant ssh -c "cd /vagrant && $CI_TEST_SCRIPT" $VIRTUALBOX_NAME
+    time vagrant ssh -c "cd /vagrant && $CI_TEST_SCRIPT" $VIRTUALBOX_NAME
 else
     echo -e "\033[31mNo test script found ($CI_TEST_SCRIPT) \e[0m"
 fi
