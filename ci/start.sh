@@ -49,7 +49,7 @@ fi
 if [ -f $CI_TEST_SCRIPT ]; 
 then
     echo -e "- Run $CI_TEST_SCRIPT"
-    time vagrant ssh -c "cd /vagrant && $CI_TEST_SCRIPT" $VIRTUALBOX_NAME
+    time vagrant ssh  -- -t "cd /vagrant && $CI_TEST_SCRIPT" $VIRTUALBOX_NAME
 else
     echo -e "\033[31mNo test script found ($CI_TEST_SCRIPT) \e[0m"
 fi
